@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box}
+body {font-family: "Lato", sans-serif;}
+
+/* Style the tab */
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 140px; /* width of sidebar */
+  height: 600px; /* height of sidebar */
+  overflow-y: scroll; /* scroll for sidebar */
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  height: 600px;
+}
+</style>
+</head>
+<body>
+
+<h2>NoteTaker</h2>
+
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'Note #1')" id="defaultOpen">Note #1</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #2')" id="defaultOpen">Note #2</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #3')" id="defaultOpen">Note #3</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #4')" id="defaultOpen">Note #4</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #5')" id="defaultOpen">Note #5</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #6')" id="defaultOpen">Note #6</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #7')" id="defaultOpen">Note #7</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #8')" id="defaultOpen">Note #8</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #9')" id="defaultOpen">Note #9</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #10')" id="defaultOpen">Note #10</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #11')" id="defaultOpen">Note #11</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #12')" id="defaultOpen">Note #12</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #13')" id="defaultOpen">Note #13</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #14')" id="defaultOpen">Note #14</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #15')" id="defaultOpen">Note #15</button>
+  <button class="tablinks" onclick="openTab(event, 'Note #16')" id="defaultOpen">Note #16</button>
+</div>
+
+<div id="Note #1" class="tabcontent">
+    <h3>Note #1</h3>
+    <textarea id="subject" name="subject" placeholder="Write something..." style="height:85%;width:99%"></textarea>
+</div>
+
+<div id="Note #2" class="tabcontent">
+    <h3>Note #2</h3>
+    <textarea id="subject" name="subject" placeholder="Write something..." style="height:85%;width:99%"></textarea>
+</div>
+
+<script>
+function openTab(evt, noteNumber) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(noteNumber).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+   
+</body>
+</html> 
