@@ -57,35 +57,12 @@ body {font-family: "Lato", sans-serif;}
 <h2>NoteTaker</h2>
 
 <div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'Note #1')" id="defaultOpen">Note #1</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #2')" id="defaultOpen">Note #2</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #3')" id="defaultOpen">Note #3</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #4')" id="defaultOpen">Note #4</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #5')" id="defaultOpen">Note #5</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #6')" id="defaultOpen">Note #6</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #7')" id="defaultOpen">Note #7</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #8')" id="defaultOpen">Note #8</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #9')" id="defaultOpen">Note #9</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #10')" id="defaultOpen">Note #10</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #11')" id="defaultOpen">Note #11</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #12')" id="defaultOpen">Note #12</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #13')" id="defaultOpen">Note #13</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #14')" id="defaultOpen">Note #14</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #15')" id="defaultOpen">Note #15</button>
-  <button class="tablinks" onclick="openTab(event, 'Note #16')" id="defaultOpen">Note #16</button>
-</div>
-
-<div id="Note #1" class="tabcontent">
-    <h3>Note #1</h3>
-    <textarea id="subject" name="subject" placeholder="Write something..." style="height:85%;width:99%"></textarea>
-</div>
-
-<div id="Note #2" class="tabcontent">
-    <h3>Note #2</h3>
-    <textarea id="subject" name="subject" placeholder="Write something..." style="height:85%;width:99%"></textarea>
+  <button class="tablinks" onclick="createNewNote()">Add Note</button>
 </div>
 
 <script>
+var noteCount = 0; // Initialize the note count
+
 function openTab(evt, noteNumber) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
@@ -100,9 +77,35 @@ function openTab(evt, noteNumber) {
   evt.currentTarget.className += " active";
 }
 
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
+function createNewNote() {
+  noteCount++; // Increment the note count
+  var newNoteID = "Note" + noteCount;
+  
+  // Create a new tab button
+  var button = document.createElement("button");
+  button.className = "tablinks";
+  button.innerHTML = "Note #" + noteCount;
+  button.onclick = function () {
+    openTab(event, newNoteID);
+  }
+  
+  // Create a new tab content
+  var tabcontent = document.createElement("div");
+  tabcontent.id = newNoteID;
+  tabcontent.className = "tabcontent";
+  tabcontent.style.display = "none";
+  tabcontent.innerHTML = "<h3>Note #" + noteCount + "</h3><textarea id='subject" + noteCount + "' name='subject' placeholder='Write something...' style='height:85%;width:99%'></textarea>";
+  
+  // Append the new button and tab content to their respective containers
+  document.querySelector(".tab").insertBefore(button, document.querySelector(".tab").lastChild);
+  document.body.appendChild(tabcontent);
+  
+  openTab(event, newNoteID); // Open the newly created note
+}
+
+// Get the element with id="defaultOpen1" and click on it
+document.getElementById("defaultOpen1").click();
 </script>
    
 </body>
-</html> 
+</html>
