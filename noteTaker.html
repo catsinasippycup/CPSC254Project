@@ -71,7 +71,7 @@ function openTab(evt, noteNumber) {
   }
   tablinks = document.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
+    tablinks[i].className = tablinks[i].className.replace("active", "");
   }
   document.getElementById(noteNumber).style.display = "block";
   evt.currentTarget.className += " active";
@@ -94,13 +94,26 @@ function createNewNote() {
   tabcontent.id = newNoteID;
   tabcontent.className = "tabcontent";
   tabcontent.style.display = "none";
-  tabcontent.innerHTML = "<h3>Note #" + noteCount + "</h3><textarea id='subject" + noteCount + "' name='subject' placeholder='Write something...' style='height:85%;width:99%'></textarea>";
+  tabcontent.innerHTML = "<h3>Note #" + noteCount + "</h3><button class='delete-button' onclick='deleteNote(\"" + newNoteID + "\", \"" + button.innerHTML + "\")'>Delete</button><textarea id='subject" + noteCount + "' name='subject' placeholder='Write something...' style='height:85%;width:99%'></textarea>";
   
   // Append the new button and tab content to their respective containers
   document.querySelector(".tab").insertBefore(button, document.querySelector(".tab").lastChild);
   document.body.appendChild(tabcontent);
   
   openTab(event, newNoteID); // Open the newly created note
+}
+
+function deleteNote(noteID, buttonLabel) {
+  var noteElement = document.getElementById(noteID);
+  noteElement.remove(); // Remove the note content
+  
+  // Remove the corresponding tab button
+  var tabButtons = document.querySelectorAll(".tablinks");
+  tabButtons.forEach(function (button) {
+    if (button.innerHTML === buttonLabel) {
+      button.remove();
+    }
+  });
 }
 
 // Get the element with id="defaultOpen1" and click on it
