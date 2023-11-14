@@ -50,6 +50,22 @@ body {font-family: "Lato", sans-serif;}
   border-left: none;
   height: 600px;
 }
+
+/* Style the Save button */
+.save-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+  margin-top: 10px;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}
 </style>
 </head>
 <body>
@@ -60,6 +76,7 @@ body {font-family: "Lato", sans-serif;}
   <button class="tablinks" onclick="createNewNote()">Add Note</button>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 var noteCount = 0; // Initialize the note count
 
@@ -94,7 +111,8 @@ function createNewNote() {
   tabcontent.id = newNoteID;
   tabcontent.className = "tabcontent";
   tabcontent.style.display = "none";
-  tabcontent.innerHTML = "<h3>Note #" + noteCount + "</h3><button class='delete-button' onclick='deleteNote(\"" + newNoteID + "\", \"" + button.innerHTML + "\")'>Delete</button><textarea id='subject" + noteCount + "' name='subject' placeholder='Write something...' style='height:85%;width:99%'></textarea>";
+  tabcontent.innerHTML = "<h3>Note #" + noteCount + "</h3><button class='delete-button' onclick='deleteNote(\"" + newNoteID + "\", \"" + button.innerHTML + "\")'>Delete</button><textarea id='subject" + noteCount + "' name='subject' placeholder='Write something...' style='height:85%;width:99%'></textarea><button class='save-button' onclick='saveNoteToServer(\"" + newNoteID + "\")'>Save</button>";
+
   
   // Append the new button and tab content to their respective containers
   document.querySelector(".tab").insertBefore(button, document.querySelector(".tab").lastChild);
@@ -114,10 +132,48 @@ function deleteNote(noteID, buttonLabel) {
       button.remove();
     }
   });
+
+  // Delete the note from the server
+  deleteNoteFromServer(noteID);
 }
 
-// Get the element with id="defaultOpen1" and click on it
-document.getElementById("defaultOpen1").click();
+function saveNoteToServer(noteID) {
+  var noteContent = document.getElementById("subject" + noteID).value;
+
+  if (noteContent) {
+    $.ajax({
+      type: "POST",
+      url: "saveNote.php",
+      data: { id: noteID, content: noteContent },
+      success: function(response) {
+        console.log(response);
+        console.log("Note saved successfully");
+      },
+      error: function(error) {
+        console.error("Error saving note");
+      }
+    });
+  } else {
+    console.error("Could not find the note content element");
+  }
+}
+
+
+function deleteNoteFromServer(noteID) {
+  $.ajax({
+    type: "POST",
+    url: "deleteNote.php",
+    data: { id: noteID },
+    success: function(response) {
+      console.log(response);
+      console.log("Note deleted successfully");
+    },
+    error: function(error) {
+      console.error("Error deleting note");
+    }
+  });
+}
+
 </script>
    
 </body>
