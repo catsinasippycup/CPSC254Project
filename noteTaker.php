@@ -58,10 +58,13 @@ body {font-family: "Lato", sans-serif;}
 
 <div class="tab">
   <button class="tablinks" onclick="createNewNote()">Add Note</button>
+  <?php include("tabnote.php"); ?>
 </div>
 
+<?php include("notes_form.php"); ?>
+
 <script>
-var noteCount = 0; // Initialize the note count
+var noteCount = <?php echo $result->num_rows; ?>; // Initialize the note count
 
 function openTab(evt, noteNumber) {
   var i, tabcontent, tablinks;
@@ -94,7 +97,13 @@ function createNewNote() {
   tabcontent.id = newNoteID;
   tabcontent.className = "tabcontent";
   tabcontent.style.display = "none";
-  tabcontent.innerHTML = "<h3>Note #" + noteCount + "</h3><button class='delete-button' onclick='deleteNote(\"" + newNoteID + "\", \"" + button.innerHTML + "\")'>Delete</button><textarea id='subject" + noteCount + "' name='subject' placeholder='Write something...' style='height:85%;width:99%'></textarea>";
+  tabcontent.innerHTML = "<form method='post' action='save_note.php' id='form_" + newNoteID + "'>" +
+                          "<h3>Note #" + noteCount + "</h3>" +
+                          "<button class='delete-button' onclick='deleteNote(\"" + newNoteID + "\", \"" + button.innerHTML + "\")'>Delete</button>" +
+                          "<button type='submit'>Save</button>" +
+                          "<input type='hidden' name='noteID' value='" + newNoteID + "'>" +
+                          "<textarea name='noteBody' placeholder='Write something...' style='height:85%;width:99%'></textarea>" +
+                          "</form>";
   
   // Append the new button and tab content to their respective containers
   document.querySelector(".tab").insertBefore(button, document.querySelector(".tab").lastChild);
