@@ -18,15 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($conn->query($sql) === TRUE) {
-        // Redirect back to the main page after saving the note
-        header("Location: noteTaker.php");
+        // Output a script to perform client-side redirection
+        echo '<script>window.location.href = "noteTaker.php";</script>';
         exit();
     } else {
         echo "Error updating note: " . $conn->error;
     }
-} else {
-    echo "Invalid request method";
-}
 
+}
 $conn->close();
 ?>

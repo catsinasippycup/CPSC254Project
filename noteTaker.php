@@ -50,6 +50,11 @@ body {font-family: "Lato", sans-serif;}
   border-left: none;
   height: 600px;
 }
+
+/* Add this rule to set a fixed height for the textarea with the class 'note-textarea' */
+.note-textarea {
+  height: 200px; /* Adjust the height as needed */
+}
 </style>
 </head>
 <body>
@@ -83,45 +88,74 @@ function openTab(evt, noteNumber) {
 function createNewNote() {
   noteCount++; // Increment the note count
   var newNoteID = "Note" + noteCount;
-  
+
   // Create a new tab button
   var button = document.createElement("button");
   button.className = "tablinks";
   button.innerHTML = "Note #" + noteCount;
-  button.onclick = function () {
+  button.onclick = function (event) {
     openTab(event, newNoteID);
-  }
-  
+  };
+
+  // Append the new button to the end of the tab container
+  document.querySelector(".tab").appendChild(button);
+
   // Create a new tab content
   var tabcontent = document.createElement("div");
   tabcontent.id = newNoteID;
   tabcontent.className = "tabcontent";
   tabcontent.style.display = "none";
   tabcontent.innerHTML = "<form method='post' action='save_note.php' id='form_" + newNoteID + "'>" +
-                          "<h3>Note #" + noteCount + "</h3>" +
-                          "<button class='delete-button' onclick='deleteNote(\"" + newNoteID + "\", \"" + button.innerHTML + "\")'>Delete</button>" +
-                          "<button type='submit'>Save</button>" +
-                          "<input type='hidden' name='noteID' value='" + newNoteID + "'>" +
-                          "<textarea name='noteBody' placeholder='Write something...' style='height:85%;width:99%'></textarea>" +
-                          "</form>";
-  
-  // Append the new button and tab content to their respective containers
-  document.querySelector(".tab").insertBefore(button, document.querySelector(".tab").lastChild);
+                        "<h3>Note #" + noteCount + "</h3>" +
+                        "<button class='delete-button' onclick='deleteNote(\"" + newNoteID + "\", \"" + button.innerHTML + "\")'>Delete</button>" +
+                        "<button type='submit'>Save</button>" +
+                        "<input type='hidden' name='noteID' value='" + newNoteID + "'>" +
+                        "<textarea name='noteBody' class='note-textarea' placeholder='Write something...' style='width:99%'></textarea>" +
+                        "</form>";
+
+  // Append the new tab content to the body
   document.body.appendChild(tabcontent);
-  
+
   openTab(event, newNoteID); // Open the newly created note
 }
 
 function deleteNote(noteID, buttonLabel) {
-  var noteElement = document.getElementById(noteID);
-  noteElement.remove(); // Remove the note content
-  
-  // Remove the corresponding tab button
-  var tabButtons = document.querySelectorAll(".tablinks");
-  tabButtons.forEach(function (button) {
-    if (button.innerHTML === buttonLabel) {
-      button.remove();
+  // Use fetch to send an AJAX request to delete the note from the server
+  fetch('delete_note.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: 'noteID=' + encodeURIComponent(noteID),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
+    return response.text();
+  })
+  .then(data => {
+    // Log the server response (for debugging)
+    console.log('Server response:', data);
+
+    // On success, remove the note from the UI
+    var noteElement = document.getElementById(noteID);
+    if (noteElement) {
+      noteElement.remove();
+    } else {
+      console.error('Note element not found in the UI');
+    }
+
+    // Remove the corresponding tab button
+    var tabButtons = document.querySelectorAll(".tablinks");
+    tabButtons.forEach(function (button) {
+      if (button.innerHTML === buttonLabel) {
+        button.remove();
+      }
+    });
+  })
+  .catch(error => {
+    console.error('Error deleting note:', error);
   });
 }
 
