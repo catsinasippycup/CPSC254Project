@@ -1,5 +1,5 @@
 # CPSC254Project
-Note taking website built with PHP JS and HTML
+Note taking website built with PHP and JS
 
 
 # Requirements
