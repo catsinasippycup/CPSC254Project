@@ -5,9 +5,9 @@ $dbUsername = "root";
 $dbPassword = "";
 $dbName = "notedb";
 
-$conn = mysqli_connect($serverName, $dbUsername, $dbPassword, $dbName);
+$conn = mysqli_connect($serverName, $dbUsername, $dbPassword, $dbName); // Connection string
 
-if (!$conn) {
+if (!$conn) { // If failed, kill the connection
     die("Connection Failed: ".mysqli_connect_error());
 }
 ?>
