@@ -120,7 +120,7 @@ function createNewNote() {
 }
 
 function deleteNote(noteID, buttonLabel) {
-  // Use fetch to send an AJAX request to delete the note from the server
+  // Use fetch to send a request to delete the note from the server
   fetch('delete_note.php', {
     method: 'POST',
     headers: {
