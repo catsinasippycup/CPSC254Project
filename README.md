@@ -1,6 +1,5 @@
-# CPSC254Project
+# CPSC 254 Project
 Note taking website built with PHP and JS
-
 
 # Requirements
 - XAMPP for server stack
