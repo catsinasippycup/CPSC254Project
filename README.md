@@ -7,7 +7,7 @@ Note taking website built with PHP and JS
 
 # How to Run
 - Download the repo
-- Launch XMAPP 
+- Launch XAMPP 
 - In XAMPP Control Panel make sure that MySQL Database and Apache are running
 - Create a new directory for the main repo files and copy it to `/opt/lampp/htdocs/`
 - Navigate to http://localhost/phpmyadmin/ and match the database name in `database.php` and table info in `notesdb.sql`
